@@ -1,32 +1,30 @@
+# open file
 with open('Cards.txt', 'r') as file:
     cards = [line.strip() for line in file]
 
-# part 1
 
 ELFCARDS = 10
 total = 0
-
 numberOfWins = list()
 
+
+# Part 1
 for card in cards:
     # get rid of the "Card  ###:"
     card = card.split(':')[1]
     nums = card.split(' ')
     count = 0
-    elf, myCards = list(), list()
+    elf, myCards = set(), set()
     for num in nums:
         if not num.isdigit():
             continue
 
         if count < ELFCARDS:
-            elf.append(int(num))
+            elf.add(int(num))
         else:
-            myCards.append(int(num))
+            myCards.add(int(num))
         count += 1
-    wins = 0
-    for win in elf:
-        if win in myCards:
-            wins += 1
+    wins = len(myCards.intersection(elf))
     total += 2 ** (wins - 1) if wins > 0 else 0
     numberOfWins.append(wins)
 
