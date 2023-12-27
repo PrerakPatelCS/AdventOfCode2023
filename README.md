@@ -49,8 +49,6 @@ in a cross fashion for all X. Subtract that by the sum of cross products
 Y1 * X2. Now divide that by 2 and you have the area of the polygon.
 
 $$
-\[
-A = \frac{1}{2} \left| \sum_{i=1}^{n-1} (x_i y_{i+1} - x_{i+1} y_i) + x_n y_1 - x_1 y_n \right|
-\]
+A = \frac{1}{2} \left| \sum_{i=1}^{n-1} (x_i y_{i+1} - x_{i+1} y_i)\right|
 $$
 
