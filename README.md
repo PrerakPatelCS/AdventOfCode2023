@@ -58,7 +58,7 @@ Need to count the number of lattice points:
 b = number of lattice points on boundary
 i = number of lattice points on inside
 $$
-A = \frac{b}{2} \ + i - 1
+A = \frac{b}{2} + i - 1
 $$
 
 Shoelace + Pick's theorem
@@ -68,7 +68,7 @@ The whole space is the area inside and the circumference
 A = Area 
 C = circumference
 $$
-S = A + C / 2 + 1
+S = A + \frac{C}{2} + 1
 $$
 
 RayCasting
