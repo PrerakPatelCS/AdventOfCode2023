@@ -57,6 +57,7 @@ Gets the area of a lattice simple polygons whose vertices are points on a grid.
 Need to count the number of lattice points:
 b = number of lattice points on boundary
 i = number of lattice points on inside
+
 $$
 A = \frac{b}{2} + i - 1
 $$
@@ -67,6 +68,7 @@ To get the whole space a polygon occupies we use these in conjunction.
 The whole space is the area inside and the circumference 
 A = Area 
 C = circumference
+
 $$
 S = A + \frac{C}{2} + 1
 $$
