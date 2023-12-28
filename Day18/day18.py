@@ -2,10 +2,10 @@ with open('DigPlan.txt', 'r') as file:
     digPlan = [tuple(line.strip().split()) for line in file]
 
 dirs = {
-    'R': complex(0, 1),
-    'L': complex(0, -1),
-    'D': complex(1, 0),
-    'U': complex(-1, 0)
+    'R': 1j,
+    'L': -1j,
+    'D': 1 + 0j,
+    'U': -1 + 0j
 }
 getDir = {
     '0': 'R',
@@ -33,24 +33,22 @@ def shoelace(vertices: list[complex]) -> float:
 Using Shoelace + pick's theorem
 '''
 def getTotalSpace(directions: list, distances: list[int]) -> int:
-    curIndex = complex(0, 0)
+    curIndex = 0 + 0j
     vertices = [curIndex]
     circumference = 0
     for dir, num in zip(directions, distances):
-        num = int(num)
         newCoord = curIndex + dirs[dir] * num
         vertices.append(newCoord)
         curIndex = newCoord
         circumference += num
-    vertices.append(complex(0, 0))
+    vertices.append(0 + 0j)
     area = shoelace(vertices)
-    print(circumference, area)
     return circumference / 2 + area + 1
 
 
 def puzzle1() -> int:
     directions = [x[0] for x in digPlan]
-    distances = [x[1] for x in digPlan]
+    distances = [int(x[1]) for x in digPlan]
     return getTotalSpace(directions, distances)
 
 
@@ -64,4 +62,4 @@ def puzzle2() -> int:
 
 
 print(puzzle1())  # 35991
-print(puzzle2())  #
+print(puzzle2())  # 54058824661845
