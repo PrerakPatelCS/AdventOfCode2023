@@ -43,12 +43,56 @@ Flood fill - A BFS algorithm filling the area until you hit a border.
 For Day 10 and 18 this is not good enough the problem is more complex
 or too big
 
-Shoelace Theorem - Get all the coordinates in clockwise or counterclockwise
-fashion from point A all around back to A, multiply the first X1 by Y2
-in a cross fashion for all X. Subtract that by the sum of cross products
-Y1 * X2. Now divide that by 2 and you have the area of the polygon.
+Shoelace Theorem - Finds the area of a simple polygon by doing a cross product
+on all the vertices. Get all the coordinates in clockwise or counterclockwise
+fashion from point A all around back to A.
 
 $$
 A = \frac{1}{2} \left| \sum_{i=1}^{n-1} (x_i y_{i+1} - x_{i+1} y_i)\right|
 $$
+
+Pick's Theorem
+
+Gets the area of a lattice simple polygons whose vertices are points on a grid.
+Need to count the number of lattice points:
+b = number of lattice points on boundary
+i = number of lattice points on inside
+$$
+A = \frac{b}{2} \ + i - 1
+$$
+
+Shoelace + Pick's theorem
+
+To get the whole space a polygon occupies we use these in conjunction.
+The whole space is the area inside and the circumference 
+A = Area 
+C = circumference
+$$
+S = A + C / 2 + 1
+$$
+
+RayCasting
+
+Pick a coordinate and to check if it is inside the polygon by
+checking how many times if you look at it from a ray perspective like a laser
+going forward, how many times it crosses the polygon. If it is odd it is 
+inside, even outside. There is a special case for vertices you cross you need
+to check there the 2 sides of the vertex is going.
+
+Scanline
+
+Same thing as raycasting but you can get the area of a polygon by 
+analyzing each line and finding which coordinates are inside via
+how many times you cross the polygon. The vertices are tricky here as well.
+
+## Some Tricks I learned
+
+Learned some good python coding tricks
+
+A really cool way to change direction with Complex numbers instead of tuples 
+so when you want to change directions you can just add by the Complex number
+and still have the pair. The logic goes like this.
+
+Each coordinate in a map has X, Y and each complex number has 2 components
+as well a real and imaginary number. So use real as X and imaginary as Y.
 

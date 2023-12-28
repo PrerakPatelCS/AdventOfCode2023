@@ -1,52 +1,67 @@
-from queue import Queue
-
 with open('DigPlan.txt', 'r') as file:
-    digPlan = [line.strip().split() for line in file]
-
+    digPlan = [tuple(line.strip().split()) for line in file]
 
 dirs = {
-    'R': (0, 1),
-    'L': (0, -1),
-    'D': (1, 0),
-    'U': (-1, 0)
+    'R': complex(0, 1),
+    'L': complex(0, -1),
+    'D': complex(1, 0),
+    'U': complex(-1, 0)
 }
-n = 100
-digMap = [[0 for _ in range(n)] for _ in range(n)]
-index = [1, 1]
+getDir = {
+    '0': 'R',
+    '1': 'D',
+    '2': 'L',
+    '3': 'U'
+}
+
+
+def shoelace(vertices: list[complex]) -> float:
+    area = 0
+    n = len(vertices)
+    for i in range(n - 1):
+        area += vertices[i].real * vertices[i + 1].imag
+    area += vertices[n - 1].real * vertices[0].imag
+
+    for i in range(n - 1):
+        area -= vertices[i + 1].real * vertices[i].imag
+    area -= vertices[0].real * vertices[n - 1].imag
+
+    return abs(area) / 2
+
+
+'''
+Using Shoelace + pick's theorem
+'''
+def getTotalSpace(directions: list, distances: list[int]) -> int:
+    curIndex = complex(0, 0)
+    vertices = [curIndex]
+    circumference = 0
+    for dir, num in zip(directions, distances):
+        num = int(num)
+        newCoord = curIndex + dirs[dir] * num
+        vertices.append(newCoord)
+        curIndex = newCoord
+        circumference += num
+    vertices.append(complex(0, 0))
+    area = shoelace(vertices)
+    print(circumference, area)
+    return circumference / 2 + area + 1
 
 
 def puzzle1() -> int:
-    for dig in digPlan:
-        dir = dirs[dig[0]]
-        num = int(dig[1])
-        color = dig[2]
-        for i in range(num):
-            digMap[index[0]][index[1]] = 1
-            index[0] += dir[0]
-            index[1] += dir[1]
-    fillMap((1, 1))
-    total = 0
-    for x in digMap:
-        for y in x:
-            total += y
-    return total
+    directions = [x[0] for x in digPlan]
+    distances = [x[1] for x in digPlan]
+    return getTotalSpace(directions, distances)
 
 
-def fillMap(coord: tuple) -> None:
-    nodes = Queue()
-    nodes.put(coord)
-    digMap[coord[0]][coord[1]] = 1
-    while not nodes.empty():
-        node = nodes.get()
-        for h in dirs:
-            dir = dirs[h]
-            newX = node[0] + dir[0]
-            newY = node[1] + dir[1]
-            if 0 <= newX < n and 0 <= newY < n and digMap[newX][newY] != 1:
-                nodes.put((newX, newY))
-                digMap[newX][newY] = 1
+def puzzle2() -> int:
+    directions = []
+    distances = []
+    for _, _, color in digPlan:
+        distances.append(int(color[2: 7], 16))
+        directions.append(getDir[color[-2]])
+    return getTotalSpace(directions, distances)
 
 
-print(puzzle1())  # 21115 too low
-# 967357 too high
-#  32643 too low
+print(puzzle1())  # 35991
+print(puzzle2())  #
